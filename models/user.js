@@ -51,7 +51,7 @@ module.exports = function(sequelize, DataType) {
 			authenticate: function(body) {
 				return new Promise(function(resolve, reject) {
 					if(! _.isString(body.email) || !_.isString(body.password)) {
-						reject();
+						return reject();
 					}
 
 					user.findOne({
@@ -60,7 +60,7 @@ module.exports = function(sequelize, DataType) {
 						}
 					}).then(function(user) {
 						if(!user || !bcrypt.compareSync(body.password, user.get('password_hash'))) {
-							reject();
+							return reject();
 						}
 
 						resolve(user); // pass the user object back
